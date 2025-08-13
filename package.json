@@ -1,5 +1,5 @@
 {
-  "name": "ai-agent-on-vercel",
+  "name": "weather-cli-tool",
   "module": "index.ts",
   "type": "module",
   "private": true,

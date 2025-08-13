@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "ai-agent-on-vercel",
+      "name": "weather-cli-tool",
       "dependencies": {
         "@ai-sdk/google": "^2.0.6",
         "ai": "^5.0.12",
