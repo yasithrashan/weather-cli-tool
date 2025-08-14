@@ -1,114 +1,116 @@
-# AI-Powered Weather CLI Tool
+# Weather CLI Tool
 
-A simple command-line weather application built with TypeScript, Bun, and the Vercel AI SDK that uses Google's Gemini model to provide weather information.
+A simple command-line weather application that fetches real-time weather data using the OpenWeather API and Google's Gemini AI model.
 
 ## Features
 
-- Get weather information for any location
-- Powered by Google's Gemini 1.5 Flash model
-- Built with TypeScript and Bun
-- Uses Zod for schema validation
-- Fast and lightweight
+- Get current weather information for any location worldwide
+- Uses OpenWeather API for accurate, real-time data
+- Powered by Google's Gemini 2.0 Flash AI model for natural language responses
+- Simple command-line interface
+- Automatic geocoding to convert location names to coordinates
 
 ## Prerequisites
 
-- [Bun](https://bun.sh/) installed on your system
-- Google AI API key (for Gemini model access)
+- [Bun](https://bun.sh/) runtime
+- OpenWeather API key
+- Google AI API access
 
 ## Installation
 
-1. Clone or download the project files
-2. Install dependencies:
-   ```bash
-   bun install
-   ```
-3. Set up your Google AI API key as an environment variable:
-   ```bash
-   export GOOGLE_GENERATIVE_AI_API_KEY="your-api-key-here"
-   ```
-
-   Or create a `.env` file in the project root:
-   ```
-   GOOGLE_GENERATIVE_AI_API_KEY=your-api-key-here
-   ```
-
-## Dependencies
-
-The project uses the following key dependencies:
-
-- `ai` - Vercel AI SDK for LLM integration
-- `@ai-sdk/google` - Google AI provider for the AI SDK
-- `zod` - TypeScript-first schema validation
-
-Add them to your `package.json`:
-```json
-{
-  "dependencies": {
-    "ai": "^3.0.0",
-    "@ai-sdk/google": "^0.0.0",
-    "zod": "^3.22.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
-  }
-}
+1. Clone this repository:
+```bash
+git clone https://github.com/yasithrashan/weather-cli-tool
 ```
+
+2. Install dependencies:
+```bash
+bun install
+```
+
+3. Set up your environment variables:
+Create a `.env` file in the root directory:
+```env
+OPENWEATHER_API_KEY=your_openweather_api_key_here
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_api_key_here
+```
+
+## Getting API Keys
+
+### OpenWeather API Key
+1. Visit [OpenWeatherMap](https://openweathermap.org/api)
+2. Sign up for a free account
+3. Navigate to the API keys section
+4. Copy your API key
+
+### Google AI API Key
+1. Visit [Google AI Studio](https://aistudio.google.com/)
+2. Create a new project or use an existing one
+3. Generate an API key
+4. Copy your API key
 
 ## Usage
 
-Run the weather tool from the command line:
+Run the application with a location as an argument:
 
 ```bash
-bun run index.ts <location>
+bun run . "New York"
+bun run . "London, UK"
+bun run . "Tokyo, Japan"
+bun run . "Paris"
 ```
 
 ### Examples
 
 ```bash
 # Get weather for a city
-bun run index.ts "New York"
+bun run . "San Francisco"
 
-# Get weather for a city and state
-bun run index.ts "San Francisco, CA"
+# Get weather for a city with country
+bun run . "Berlin, Germany"
 
-# Get weather for a city and country
-bun run index.ts "London, UK"
-
-# Multiple word locations
-bun run index.ts "Los Angeles"
+# Get weather for a specific location
+bun run . "Central Park, New York"
 ```
+
+## Dependencies
+
+- `zod` - Schema validation
+- `ai` - AI SDK for tool integration
+- `@ai-sdk/google` - Google AI SDK integration
 
 ## How It Works
 
-1. **Command Line Parsing**: The tool accepts location arguments from the command line
-2. **Tool Definition**: A weather tool is defined with Zod schema validation for the location input
-3. **Mock Weather Data**: The tool generates random temperature data (72°F ± 10°F) for demonstration purposes
-4. **AI Integration**: Uses Google's Gemini model to process the weather request and format the response
-5. **Output**: Displays either the tool results or the AI-generated text response
+1. The application takes a location argument from the command line
+2. Uses the OpenWeather Geocoding API to convert the location name to coordinates
+3. Fetches current weather data using the OpenWeather API
+4. The Gemini AI model processes the weather data and provides a natural language response
+5. The formatted weather information is displayed in the terminal
 
-## Code Structure
+## Error Handling
 
-- `weatherTool`: Defines the weather tool with input schema and execution logic
-- `main()`: Main function that handles command-line arguments and orchestrates the weather request
-- Error handling for robust CLI experience
+The application includes error handling for:
+- Missing location argument
+- Invalid locations
+- API connection issues
+- Missing API keys
 
-## Notes
+## API Rate Limits
 
-- This is a demonstration tool that generates mock weather data
-- In a production environment, you would integrate with a real weather API (e.g., OpenWeatherMap, AccuWeather)
-- The temperature is randomly generated between 62°F and 82°F
+- OpenWeather free tier: 1,000 calls/day, 60 calls/minute
+- Google AI: Check your specific plan limits
 
 ## License
 
-This project is provided as-is for educational and demonstration purposes.
+[MIT License](LICENSE)
 
 ## Contributing
 
-Feel free to fork this project and adapt it for your needs. Some potential improvements:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-- Integrate with a real weather API
-- Add more weather parameters (humidity, wind speed, etc.)
-- Support for different temperature units
-- Weather forecasts and historical data
-- Better error handling and validation
+## Support
+
+For issues and questions, please open an issue in the GitHub repository.
