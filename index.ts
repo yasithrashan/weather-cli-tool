@@ -1,5 +1,5 @@
-import { number, z } from "zod";
-import { generateText, tool } from "ai";
+import { z } from "zod";
+import { generateText, tool, stepCountIs } from "ai";
 import { google } from "@ai-sdk/google";
 
 
@@ -13,11 +13,14 @@ const weatherTool = tool({
   }),
   execute: async ({ location }) => {
     const geo = await getGeoLocation(location);
+    let weatherData;
     if (geo) {
-      await getWeather(geo.lat, geo.lon)
+      weatherData = await getWeather(geo.lat, geo.lon)
     }
+    return weatherData
   }
 });
+
 
 async function getGeoLocation(location: string): Promise<{ name: string, lat: number, lon: number } | undefined> {
   const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
@@ -45,5 +48,17 @@ async function getWeather(lat: number, lon: number) {
   return data;
 }
 
+const locationArg = process.argv[2];
+if (!locationArg) {
+  console.error("Usage: bun run . <location>");
+  process.exit(1);
+}
 
+const weatherResult = await generateText({
+  model: google("gemini-2.0-flash"),
+  tools: { weather: weatherTool },
+  stopWhen: stepCountIs(5),
+  prompt: `Use the weather tool to tell me the weather in ${locationArg}.`,
+});
 
+console.log(weatherResult.text);
